@@ -1,3 +1,35 @@
+## EDA - Course Project 01
+
+In order to execute the plotting scripts outlined in the course project instruction (below),
+you will need not only the four plot\*.R scripts, but the prepareData.R script.
+Each of the plot\*.R scripts sources the prepareData.R script and exectutes a function
+within it to prepare the data.
+
+Each of the *.R scripts needs to be in your working directory.
+
+### Execution
+Simply source any of the plot\*.R scripts and it will prepare the data, and generate
+the appropriate diagram as a PNG file.
+
+Example:
+```
+source("plot1.R")
+```
+
+### Data Preparation
+Data preparation includes:
+
+* Creation of the "data" subfolder
+* Download of the household_power_consumption.zip file (renamed to hpc.zip)
+* Unzipping of the hpc.zip file to create household_power_consumption.txt file
+* Loading and data prep of the hpc data frame
+
+Once data preparation is complete, each plot\*.R script will generate its diagram
+as a PNG file.
+
+
+<hr>
+
 ## Introduction
 
 This assignment uses data from
