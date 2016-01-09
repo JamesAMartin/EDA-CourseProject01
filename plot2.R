@@ -38,16 +38,36 @@ if( !file.exists( zipFile ) )
 		 )
 }
 
-###	If the hpc dataframe is not already loaded, load it now.
+###	If the hpc dataframe is not already loaded, load it now.  Pull only rows
+###	we care about for performance
 if( !exists("hpc") )
 {
-	##	Load data into R and tweak any fields needed
-	hpc <- read.csv( dataFile, sep = ";", na.strings = "?", row.names = NULL )
+	##	Read headers from file
+	header <- read.csv(
+							dataFile
+							, sep = ";"
+							, header = FALSE
+							, nrows = 1
+							, stringsAsFactors = FALSE
+					  )
+	
+	##	Load data from file and apply headers
+	hpc <- read.csv(
+							dataFile
+							, sep = ";"
+							, na.strings = "?"
+							, row.names = NULL
+							, header = FALSE
+							, skip = 66637
+							, nrows = 2880
+							, stringsAsFactors = FALSE
+					)
+	names(hpc) <- unlist(header)
+	
+	##	Convert date and time using lubridate functions
 	hpc$Date <- dmy( hpc$Date )
 	hpc$Time <- hms( hpc$Time )
-	hpc <- hpc[hpc$Date == ymd("2007-02-01") | hpc$Date == ymd("2007-02-02"), ]
 }
-
 
 ################################################################################
 ####	Plot the data in kilowatts by day

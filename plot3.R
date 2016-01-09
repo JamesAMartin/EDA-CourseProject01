@@ -14,7 +14,7 @@ library( lubridate )
 fileUrl <- "https://d396qusza40orc.cloudfront.net/exdata/data/household_power_consumption.zip"
 zipFile <- "./data/hpc.zip"
 dataFile <- "./data/household_power_consumption.txt"
-pngFile <- "./plot1.png"
+pngFile <- "./plot3.png"
 
 ###	Create the data folder if it does not exist
 if (!file.exists("data"))
@@ -69,8 +69,10 @@ if( !exists("hpc") )
 	hpc$Time <- hms( hpc$Time )
 }
 
+
+
 ################################################################################
-####	Plot the data in histogram format
+####	Plot the data in kilowatts by day
 
 ###	Open device for plotting
 png( 
@@ -79,15 +81,29 @@ png(
 		, height = 480
 	)
 
+
+
 ###	Draw the diagram
-hist( 
-		hpc$Global_active_power
-		, col = "red"
-		, main = "Global Active Power"
-		, xlab = "Global Active Power (kilowatts)" 
-		, breaks = 12
-		, xlim = 
+
+##	Main initial plot
+plot( 
+		hpc$Date + hpc$Time
+		, hpc$Sub_metering_1
+		, type = "l"
+		, xlab = ""
+		, ylab = "Energy sub metering"
+		, col = "black"
 	)
+
+##	Add second line plot
+lines( hpc$Date + hpc$Time, hpc$Sub_metering_2, col = "red" )
+
+##	Add third line plot
+lines( hpc$Date + hpc$Time, hpc$Sub_metering_3, col = "blue" )
+
+##	Add the legend
+legend( "topright", lty = c(1,1), col = c( "black", "red", "blue" ), legend = c( "Sub_metering_1", "Sub_metering_2", "Sub_metering_3" ) )
+
 
 ###	Close the device
 dev.off()
